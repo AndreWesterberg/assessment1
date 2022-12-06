@@ -18,7 +18,24 @@ def fetch_data(connection):
     cur.close()
     return rows
 
-# Main program
+
+
+# 3.4
 view_contacts = fetch_data(conn)
 for row in view_contacts:
     print(row)
+# 3.5 Main program
+keep_going = True
+while keep_going:
+    command = input('Options: LIST, INSERT, DELETE, QUIT    Enter your choise:')
+    if command == 'LIST':
+        pass
+    elif command == 'INSERT':
+        pass
+    elif command == 'DELETE':
+        pass
+    elif command == 'QUIT':
+        print('Have a nice day')
+        keep_going = False
+    else:
+        print('Invalid option')
