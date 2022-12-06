@@ -19,6 +19,17 @@ def fetch_data(connection):
     return rows
 
 
+def insert_contact(connection, first_name, last_name, title, organization):
+    cur = connection.cursor()
+    cur.execute(f"INSERT INTO contacts (first_name, last_name, title, organization) VALUES ('{first_name}', '{last_name}', '{title}', '{organization}');")
+    cur.close()
+
+def list_contacts(connection):
+    cur = connection.cursor()
+    cur.execute("SELECT * FROM contacts;")
+    rows = cur.fetchall()
+    cur.close()
+    return rows
 
 # 3.4
 view_contacts = fetch_data(conn)
@@ -29,13 +40,23 @@ keep_going = True
 while keep_going:
     command = input('Options: LIST, INSERT, DELETE, QUIT    Enter your choise:')
     if command == 'LIST':
-        pass
+        rows = list_contacts(conn)
+        for row in rows:
+            print(row)
     elif command == 'INSERT':
-        pass
+        first_name = input('Enter first name: ')
+        last_name = input('Enter last name: ')
+        title = input('Enter title: ')
+        organization = input('Enter organization: ')
+        insert_contact(conn, first_name, last_name, title, organization)
     elif command == 'DELETE':
         pass
     elif command == 'QUIT':
         print('Have a nice day')
+        cur = connection.cursor()
+        cur.execute("COMMIT;")
+        cur.close()
+        conn.close()
         keep_going = False
     else:
         print('Invalid option')
