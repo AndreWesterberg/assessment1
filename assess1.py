@@ -31,6 +31,11 @@ def list_contacts(connection):
     cur.close()
     return rows
 
+def delete_contact(connection, contact_id):
+    cur = connection.cursor()
+    cur.execute(f"DELETE FROM contacts WHERE id = '{contact_id}';")
+    cur.close()
+
 # 3.4
 view_contacts = fetch_data(conn)
 for row in view_contacts:
@@ -50,12 +55,11 @@ while keep_going:
         organization = input('Enter organization: ')
         insert_contact(conn, first_name, last_name, title, organization)
     elif command == 'DELETE':
-        pass
+        contact_id = input('Enter the id you want to delete: ')
+        delete_contact(conn, contact_id)
     elif command == 'QUIT':
         print('Have a nice day')
-        cur = connection.cursor()
-        cur.execute("COMMIT;")
-        cur.close()
+        conn.commit()
         conn.close()
         keep_going = False
     else:
